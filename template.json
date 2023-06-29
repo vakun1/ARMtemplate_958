@@ -1,0 +1,295 @@
+{
+
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+
+    "contentVersion": "1.0.0.0",
+
+    "parameters": {
+
+        "scope": {
+
+            "type": "string"
+
+        },
+
+        "agMailId": {
+
+            "type": "string"
+
+        },
+
+        "metricAlertName": {
+
+            "type": "string"
+
+        },
+
+        "tags": {
+
+            "type": "object"
+
+        },
+
+        "severity": {
+
+            "defaultValue": 2,
+
+            "type": "int",
+
+            "allowedValues": [
+
+                0,
+
+                1,
+
+                2,
+
+                3,
+
+                4
+
+            ],
+
+            "metadata": {
+
+                "description": "Severity of alert {0,1,2,3,4}"
+
+            }
+
+        },
+
+        "evaluationFrequency": {
+
+            "defaultValue": "PT5M",
+
+            "type": "string",
+
+            "allowedValues": [
+
+                "PT5M",
+
+                "PT15M",
+
+                "PT30M",
+
+                "PT1H"
+
+            ],
+
+            "metadata": {
+
+                "description": "how often the metric alert is evaluated represented in ISO 8601 duration format"
+
+            }
+
+        },
+
+        "windowSize": {
+
+            "defaultValue": "PT15M",
+
+            "type": "string",
+
+            "allowedValues": [
+
+                "PT5M",
+
+                "PT15M",
+
+                "PT30M",
+
+                "PT1H"
+
+            ],
+
+            "metadata": {
+
+                "description": "Period of time used to monitor alert activity based on the threshold. Must be between five minutes and one hour. ISO 8601 duration format."
+
+            }
+
+        },
+
+        "threshold": {
+
+            "defaultValue": 0,
+
+            "type": "int"
+
+        },
+
+        "metricNamespace": {
+
+            "type": "string"
+
+        },
+
+        "metricName": {
+
+            "type": "string"
+
+        },
+
+        "dimensions": {
+
+            "type": "array"
+
+        },
+
+        "operator": {
+
+            "type": "string",
+
+            "defaultValue": "GreaterOrLessThan",
+
+            "allowedValues": [
+
+                "GreaterThan",
+
+                "LessThan",
+
+                "GreaterOrLessThan",
+
+                "LessThanOrEqual"
+
+            ],
+
+            "metadata": {
+
+                "description": "Operator comparing the current value with the threshold value."
+
+            }
+
+        },
+
+        "timeAggregation": {
+
+            "type": "string",
+
+            "defaultValue": "Average",
+
+            "allowedValues": [
+
+                "Average",
+
+                "Minimum",
+
+                "Maximum",
+
+                "Total",
+
+                "Count"
+
+            ],
+
+            "metadata": {
+
+                "description": "How the data that is collected should be combined over time."
+
+            }
+
+        },
+
+        "odataType": {
+
+            "type": "string"
+
+        },
+
+        "targetResourceType": {
+
+            "type": "string"
+
+        }
+
+    },
+
+    "variables": {},
+
+    "resources": [
+
+        {
+
+            "type": "microsoft.insights/metricAlerts",
+
+            "apiVersion": "2018-03-01",
+
+            "name": "[parameters('metricAlertName')]",
+
+            "location": "global",
+
+            "tags": "[parameters('tags')]",
+
+            "properties": {
+
+                "severity": "[parameters('severity')]",
+
+                "enabled": true,
+
+                "scopes": [
+
+                    "[parameters('scope')]"
+
+                ],
+
+                "evaluationFrequency": "[parameters('evaluationFrequency')]",
+
+                "windowSize": "[parameters('windowSize')]",
+
+                "criteria": {
+
+                    "allOf": [
+
+                        {
+
+                            "threshold": "[parameters('threshold')]",
+
+                            "name": "Metric1",
+
+                            "metricNamespace": "[parameters('metricNamespace')]",
+
+                            "metricName": "[parameters('metricName')]",
+
+                            "dimensions": "[parameters('dimensions')]",
+
+                            "operator": "[parameters('operator')]",
+
+                            "timeAggregation": "[parameters('timeAggregation')]",
+
+                            "skipMetricValidation": false,
+
+                            "criterionType": "StaticThresholdCriterion"
+
+                        }
+
+                    ],
+
+                    "odata.type": "[parameters('odataType')]"
+
+                },
+
+                "autoMitigate": true,
+
+                "targetResourceType": "[parameters('targetResourceType')]",
+
+                "targetResourceRegion": "westeurope",
+
+                "actions": [
+
+                    {
+
+                        "actionGroupId": "[parameters('agMailId')]",
+
+                        "webHookProperties": {}
+
+                    }
+
+                ]                
+
+            }
+
+        }
+
+    ]
+
+}

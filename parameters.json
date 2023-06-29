@@ -1,0 +1,113 @@
+{
+
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+
+    "contentVersion": "1.0.0.0",
+
+    "parameters": {
+
+        "tags": {
+
+            "value": {
+
+                "Availability": "Fulltime",
+
+                "Backup": "no",
+
+                "Criticality": "medium",
+
+                "DeployType": "code",
+
+                "Environment": "prod",
+
+                "ProjectName": "Monitoring",
+
+                "ResponsibleParty": "m.vanek@lagardere-tr.cz"
+
+            }
+
+        },
+
+        "scope": {
+
+            "value": [
+
+                "/subscriptions/0a0cee81-343b-4794-ada0-1c9ffda59bd4/resourceGroups/rgczbnsprod/providers/Microsoft.Compute/virtualMachines/czltrwbnsasp1",
+
+                "/subscriptions/0a0cee81-343b-4794-ada0-1c9ffda59bd4/resourceGroups/rgczbnsprod/providers/Microsoft.Compute/virtualMachines/czltrwbnststp1"
+
+            ]
+
+        },
+
+        "agMailId": {
+
+            "value": "/subscriptions/0a0cee81-343b-4794-ada0-1c9ffda59bd4/resourceGroups/rgczmonitoringprod/providers/microsoft.insights/actiongroups/ag-alert-itmonitoring"
+
+        },
+
+        "metricAlertName": {
+
+            "value": "CPU Usage - Warning alert - PROD"
+
+        },
+
+        "severity": {
+
+            "value": 2
+
+        },
+
+        "threshold": {
+
+            "value": 90
+
+        },
+
+        "metricNamespace": {
+
+            "value": "microsoft.compute/virtualmachines"
+
+        },
+
+        "metricName": {
+
+            "value": "Percentage CPU"
+
+        },
+
+        "dimensions": {
+
+            "value": [
+
+            ]
+
+        },
+
+        "operator": {
+
+            "value": "GreaterThan"
+
+        },
+
+        "timeAggregation": {
+
+            "value": "Average"
+
+        },
+
+        "odataType": {
+
+            "value": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+
+        },
+
+        "targetResourceType": {
+
+            "value": "Microsoft.Compute/virtualMachines"
+
+        }
+
+    }
+
+}
